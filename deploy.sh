@@ -12,7 +12,7 @@ cd $WORK_DIR
 
 PROJECT_DIR="ses-handler-dmarc-report-from-email"
 
-(cd ses-handler-dmarc-report-from-email && npm install --production --loglevel=error && npm prune --production --loglevel=error)
+(cd $PROJECT_DIR && npm install --production --loglevel=error && npm prune --production --loglevel=error)
 
 ZIP_FILE="$WORK_DIR/ses-handler-dmarc-report-from-email.zip"
 [ -e $ZIP_FILE ] && rm $ZIP_FILE
