@@ -1,4 +1,3 @@
-const util = require('util');
 const AWS = require('aws-sdk');
 const {simpleParser} = require('mailparser');
 const {Readable} = require('stream');
@@ -8,8 +7,8 @@ const path = require('path');
 
 const s3 = new AWS.S3({signatureVersion: 'v4'});
 
-const s3bucketName = "redbit-dmarc-reports";
-const s3reportsPrefix = "dmarc-reports/";
+const s3bucketName = process.env.OUTPUT_S3_PATH_PREFIX;
+const s3reportsPrefix = process.env.OUTPUT_S3_BUCKET_NAME;
 
 exports.handler = async function (event, context, callback) {
     verifyEvent(event);
@@ -33,10 +32,10 @@ function verifyEvent(event) {
         event.Records[0].eventSource !== 'aws:s3' ||
         !event.Records[0].eventVersion.startsWith('2.')) {
         console.log({
-            message: "parseEvent() received invalid SES message:",
+            message: "parseEvent() received invalid S3 event message:",
             level: "error", event: JSON.stringify(event)
         });
-        throw new Error('Error: Received invalid SES message.');
+        throw new Error('Error: Received invalid S3 event message.');
     }
 }
 
