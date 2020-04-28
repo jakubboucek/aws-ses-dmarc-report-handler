@@ -62,7 +62,7 @@ async function getXmlReport(message) {
     let contentType = attachment.contentType;
     let filename = attachment.filename;
 
-    if (contentType === 'application/gzip') {
+    if (['application/gzip', 'application/x-gzip'].includes(contentType)) {
         stream = stream.pipe(createUnzip());
         contentType = 'text/xml';
         if (filename.endsWith('.gz') || filename.endsWith('.gzip')) {
@@ -70,7 +70,7 @@ async function getXmlReport(message) {
         }
     }
 
-    if (contentType === 'application/zip') {
+    if (['application/zip', 'application/x-zip-compressed'].includes(contentType)) {
         stream = stream.pipe(unzipper.ParseOne());
         contentType = 'text/xml';
         if (filename.endsWith('.zip')) {
